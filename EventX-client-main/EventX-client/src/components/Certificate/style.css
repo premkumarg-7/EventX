@@ -1,0 +1,66 @@
+* {
+    box-sizing: border-box;
+  }
+  .AppCertify {
+    font-family: "Hachi Maru Pop", cursive;
+    display: flex;
+    padding: 15px;
+  }
+  .AppCertify .Meta {
+    flex-grow: 1;
+    padding-right: 15px;
+  }
+  .AppCertify .Meta input {
+    font-family: inherit;
+    padding: 5px;
+    width: 100%;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.25);
+    border: 2px solid rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+  }
+  .AppCertify .Meta button {
+    padding: 10px 15px;
+    border: 2px solid #87ceeb;
+    background-color: #33f3fb;
+    font-family: inherit;
+    margin: 20px 0;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  .AppCertify #downloadWrapper {
+    padding: 20px;
+  }
+  .AppCertify #certificateWrapper {
+    box-shadow: 0 0 5px #000;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+  }
+  .AppCertify #certificateWrapper img {
+    display: block;
+  }
+  .AppCertify #certificateWrapper .SetName {
+    font-family: "Staatliches", cursive;
+    margin: 0;
+    position: absolute;
+    left: 400px;
+    top: 290px;
+    font-size: 18pt;
+  }
+  .AppCertify #certificateWrapper .SetCollege {
+    font-family: "Staatliches", cursive;
+    margin: 0;
+    position: absolute;
+    left: 130px;
+    top: 330px;
+    font-size: 18pt;
+  }
+  .AppCertify #certificateWrapper .SetEvent {
+    font-family: "Staatliches", cursive;
+    margin: 0;
+    position: absolute;
+    left: 350px;
+    top: 373px;
+    font-size: 18pt;
+  }
+  
