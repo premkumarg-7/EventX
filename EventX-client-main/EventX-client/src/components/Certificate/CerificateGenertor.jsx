@@ -4,6 +4,7 @@ import "./style.css";
 import Certificate from "./image.png";
 
 class CertificateGenerator extends Component {
+  
   certificateWrapper = React.createRef();
   state = {
     Name: "",

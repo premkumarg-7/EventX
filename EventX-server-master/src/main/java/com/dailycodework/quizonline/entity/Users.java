@@ -14,8 +14,10 @@ public class Users {
         @Column(name = "id", length = 45)
         @GeneratedValue(strategy = GenerationType.AUTO)
         private int id;
-        @Column(name = "username", length = 255)
+        @Column(name = "username", length = 255 ,nullable = false)
         private String username;
+        @Column(name = "is_admin", nullable = false)
+        private Boolean is_admin;
         @Column(name = "email", length = 255)
         private String email;
         @Column(name = "password", length = 255)
@@ -24,9 +26,10 @@ public class Users {
         public Users() {
         }
 
-        public Users(int id, String username, String email, String password) {
+        public Users(int id, String username, Boolean is_admin ,String email, String password) {
             this.id = id;
             this.username = username;
+            this.is_admin =is_admin;
             this.email = email;
             this.password = password;
         }

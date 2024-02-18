@@ -9,11 +9,13 @@ import GetAllQuiz from "./components/quiz/GetAllQuiz"
 import AddQuestion from "./components/question/AddQuestion"
 import UpdateQuestion from "./components/question/UpdateQuestion"
 import Navbar from "./components/layout/NavBar"
-import Admin from "./components/Admin"
+import Admin from "./components/AdminSystem/Admin"
 import CodeCompiler from "./components/CodeCompiler/Main/CodeCompiler"
 import CertificateGenerator from "./components/Certificate/CerificateGenertor"
-import AdminLogin from "./components/AdminLogin"
-import Register from "./components/register"
+import AdminLogin from "./components/AdminSystem/AdminLogin"
+import Register from "./components/AdminSystem/Register"
+import Desktop from "./components/HomePage/Desktop"
+import UserRegister from "./components/Users/UserRegister"
 
 
 function App() {
@@ -22,7 +24,7 @@ function App() {
 			<Router>
 				<Navbar />
 				<Routes>
-					<Route path="/" element={<Home />} />
+					<Route path="/" element={<Desktop />} />
 					<Route path="/quiz-stepper" element={<QuizStepper />} />	
 					<Route path="/take-quiz" element={<Quiz />} />
 					<Route path="/admin" element={<Admin />} />
@@ -30,6 +32,7 @@ function App() {
 					<Route path="/certificate" element={<CertificateGenerator/>}/>
 					<Route path="/login" element={<AdminLogin/>}/>
 					<Route path="/register" element={<Register/>}/>
+					<Route path="/user-register" element={<UserRegister/>}/>
 
 					<Route path="/create-quiz" element={<AddQuestion />} />
 					<Route path="/update-quiz/:id" element={<UpdateQuestion />} />

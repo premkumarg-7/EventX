@@ -19,16 +19,22 @@ const Navbar = () => {
 					<span className="navbar-toggler-icon"></span>
 				</button>
 				<div className="collapse navbar-collapse" id="navbarNav">
-					<ul className="navbar-nav ml-auto">
+					<ul className="navbar-nav ">
 						<li className="nav-item">
 							<NavLink className="nav-link" to={"/login"}>
 								Admin
 							</NavLink>
 						</li>
 
-						<li className="nav-item">
+						{/* <li className="nav-item">
 							<NavLink className="nav-link" to={"/quiz-stepper"}>
 								Take Quiz
+							</NavLink>
+						</li> */}
+
+						<li className="nav-item">
+							<NavLink className="nav-link" to={"/user-register"}>
+								Participant
 							</NavLink>
 						</li>
 

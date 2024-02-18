@@ -1,14 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { useForm } from 'react-hook-form'
 
 
 const API_URL="http://localhost:9192";
 
 const Admin = () => {
-  
-	const { register, handleSubmit, formState: { errors } } = useForm();
-
   
   return (
     <><section className="container">

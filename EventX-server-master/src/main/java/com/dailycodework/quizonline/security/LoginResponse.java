@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 public class LoginResponse {
     String message;
-   Boolean status;
+    Boolean status;
 
     public LoginResponse(String message, Boolean status){
         this.message=message;
