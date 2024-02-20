@@ -1,3 +1,4 @@
+import React from "react";
 import FrameComponent from "./components/FrameComponent";
 import FrameAdmin from "./components/FrameAdmin";
 import FrameRectangleFrame from "./components/FrameRectangleFrame";
@@ -20,7 +21,6 @@ const Desktop = () => {
         letterSpacing: "normal",
       }}
     >
-      {/* <NavBar /> */}
       <section
         style={{
           alignSelf: "stretch",

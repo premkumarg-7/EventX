@@ -23,9 +23,6 @@ public class Users {
         @Column(name = "password", length = 255)
         private String password;
 
-        public Users() {
-        }
-
         public Users(int id, String username, Boolean is_admin ,String email, String password) {
             this.id = id;
             this.username = username;
@@ -34,4 +31,8 @@ public class Users {
             this.password = password;
         }
 
+
+    public Users() {
+
+    }
 }

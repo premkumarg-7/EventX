@@ -8,10 +8,14 @@ import lombok.Setter;
 public class LoginResponse {
     String message;
     Boolean status;
+    String name;
 
-    public LoginResponse(String message, Boolean status){
+
+    public LoginResponse(Boolean status, String message){
         this.message=message;
         this.status=status;
+
+
     }
 
 }

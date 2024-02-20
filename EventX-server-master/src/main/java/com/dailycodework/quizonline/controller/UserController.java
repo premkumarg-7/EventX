@@ -1,6 +1,7 @@
 package com.dailycodework.quizonline.controller;
 
 import com.dailycodework.quizonline.model.LoginDTO;
+import com.dailycodework.quizonline.model.ParticipantDTO;
 import com.dailycodework.quizonline.model.UserDTO;
 import com.dailycodework.quizonline.security.LoginResponse;
 import com.dailycodework.quizonline.service.UserService;
@@ -18,6 +19,12 @@ public class UserController {
     @PostMapping(path = "/save")
     public String saveUser(@RequestBody UserDTO userDTO){
         String id=userService.addUser(userDTO);
+        return id;
+    }
+    @PostMapping(path = "/participant_save")
+    public  String saveParticipant(@RequestBody ParticipantDTO participantDTO)
+    {
+        String id=userService.addParticipant(participantDTO);
         return id;
     }
     @PostMapping (path = "/login")

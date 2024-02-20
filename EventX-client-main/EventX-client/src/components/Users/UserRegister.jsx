@@ -6,20 +6,20 @@ import Image from "../images/Registeration.jpg"
 function UserRegister() {
   
     const [username, setusername] = useState("");
-    //const [isAdmin, setisAdmin]=useState("");
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const Navigate = useNavigate();
+    const [college, setCollege] = useState("");
+    const [mobileno, setMobileno] =useState("");
 
+    const Navigate = useNavigate();
 
     async function save(event) {
         event.preventDefault();
         try {
-          await axios.post("http://localhost:9192/api/v1/user/save", {
+          await axios.post("http://localhost:9192/api/v1/user/participant_save", {
           username: username,
-          is_admin:false,
           email: email,
-          password: password
+          college : college,
+          mobileno : mobileno
           });
           alert("User Registation Successfully");
           Navigate("/quiz-stepper")
@@ -43,7 +43,7 @@ function UserRegister() {
     <div class="col-md-5 ps-5">
     <form>
         <div class="form-group pb-3">
-          <label class="fs-4">Username</label>
+          <label class="fs-5">Name</label>
           <input type="text" class="form-control form-control-lg" id="username" placeholder="Enter Name" minLength={4}
           
           value={username}
@@ -80,7 +80,7 @@ function UserRegister() {
         </div> */}
 
         <div class="form-group pb-3">
-          <label class="fs-4">Email</label>
+          <label class="fs-5">Email</label>
           <input type="email"  class="form-control form-control-lg" id="email" placeholder="Enter Email" 
           
           value={email}
@@ -93,12 +93,22 @@ function UserRegister() {
         </div>
 
         <div class="form-group pb-3">
-            <label class="fs-4">Password</label>
-            <input type="password"  class="form-control form-control-lg" id="password" placeholder="Enter password" minLength={4}
+            <label class="fs-5">College</label>
+            <input type="text"  class="form-control form-control-lg" id="college" placeholder="Enter your college name" minLength={4}
             
-            value={password}
+            value={college}
             onChange={(event) => {
-              setPassword(event.target.value);
+              setCollege(event.target.value);
+            }}
+            
+            />
+          </div>
+          <div class="form-group pb-3">
+            <label class="fs-5">Mobile no</label>
+            <input type="tel"  class="form-control form-control-lg" id="mobileno" placeholder="Enter your Mobile no" minLength={4}
+            value={mobileno}
+            onChange={(event) => {
+              setMobileno(event.target.value);
             }}
             
             />
@@ -109,12 +119,6 @@ function UserRegister() {
             </div>
        
       </form>
-      <div class="text-center pt-3">
-      <Link to="/login" class="fs-5" style={{
-        textDecoration:"none"
-      }}>
-         Already have an account?</Link>
-      </div>
       
     </div>
     </div>

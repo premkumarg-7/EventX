@@ -37,7 +37,7 @@ function AdminLogin() {
              else if(res.data.message == "Login Success")
              { 
                success_message("Login Success!");
-                navigate('/admin');
+               navigate('/admin');
              } 
               else 
              { 

@@ -1,14 +1,19 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-
-
-const API_URL="http://localhost:9192";
+import { useNavigate } from 'react-router-dom';
 
 const Admin = () => {
+	const navigate =useNavigate()
+	const handleLogout = () => {
+		navigate("/");
+	  };
   
   return (
-    <><section className="container">
-		  <h2 className="mt-5">Welcome to admin home page</h2>
+    <><section className="container mt-5">
+        <button className="btn btn-dark" onClick={handleLogout}>
+          Logout
+        </button>
+		  <h2 className="mt-2">Welcome to admin home page{}</h2>
 		  <hr />
 		  <nav className="nav flex-column">
 			  <Link to={"/create-quiz"} className="nav-link">
