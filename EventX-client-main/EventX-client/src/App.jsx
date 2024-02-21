@@ -1,7 +1,6 @@
 import React, { useState } from "react"
 import "bootstrap/dist/css/bootstrap.min.css"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
-import Home from "./components/Home"
 import QuizStepper from "./components/quiz/QuizStepper"
 import Quiz from "./components/quiz/Quiz"
 import QuizResult from "./components/quiz/QuizResult"

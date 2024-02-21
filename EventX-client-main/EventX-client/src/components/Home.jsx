@@ -2,9 +2,17 @@ import React from "react"
 
 const Home = () => {
 	return (
-		<main>
-			<h1 className="mt-5 text-primary text-center" >What you need Matters!</h1>
-		</main>
+		
+		<div class="card" style={{
+			width: "28rem",
+			backgroundColor:"rgb(43, 136, 217)",
+			margin:"10px",
+			padding:"30px"
+		}}>
+		<div class="card-body">
+		  <h5 class="card-link text-center"style={{color:"white"}}>Admin</h5>
+		</div>
+	  </div>
 	)
 }
 
