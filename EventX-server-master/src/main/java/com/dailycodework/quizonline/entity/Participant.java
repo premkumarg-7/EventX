@@ -20,13 +20,14 @@ public class Participant {
     private String email;
     @Column(name = "college",length = 255,nullable = false)
     private String college;
+
     @Column(name = "mobile",length = 25)
-    private int mobile;
+    private String mobile;
     public Participant() {
 
     }
 
-    public Participant(int id, String name, String email, String college, int mobile) {
+    public Participant(int id, String name, String email, String college, String mobile) {
         this.id = id;
         this.name = name;
         this.email = email;

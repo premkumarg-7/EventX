@@ -10,9 +10,9 @@ public class ParticipantDTO {
     private String username;
     private String email;
     private String college;
-    private int mobile;
+    private String mobile;
 
-    public ParticipantDTO(int id, String username, String email, String college, int mobile) {
+    public ParticipantDTO(int id, String username, String email, String college, String mobile) {
         this.id = id;
         this.username = username;
         this.email = email;

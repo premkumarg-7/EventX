@@ -53,7 +53,7 @@ public class UserIMPL implements UserService{
                 participantDTO.getMobile()
         );
         participantRepo.save(participant);
-        System.out.println(participant.getName());
+        System.out.println(participant.getMobile());
         return participant.getName();
     }
 
@@ -73,8 +73,7 @@ public class UserIMPL implements UserService{
                 if (user.isPresent()) {
                     if(admin==true) {
                         System.out.println(Name);
-                       return new LoginResponse(true,
-                               "Login Success");
+                       return new LoginResponse(true, "Login Success");
                     }else{
                         return  new LoginResponse(false, "The User is not admin!");
                     }

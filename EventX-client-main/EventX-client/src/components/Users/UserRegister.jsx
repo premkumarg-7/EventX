@@ -1,6 +1,6 @@
 import {  useState } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Image from "../images/Registeration.jpg"
 
 function UserRegister() {
@@ -9,6 +9,7 @@ function UserRegister() {
     const [email, setEmail] = useState("");
     const [college, setCollege] = useState("");
     const [mobileno, setMobileno] =useState("");
+   
 
     const Navigate = useNavigate();
 
@@ -53,31 +54,7 @@ function UserRegister() {
           />
 
         </div>
-        {/* <div class="form-group pb-3">
-          <label class="fs-3">Are you Admin?</label>
-        <div class="form-check">
-          <label class="form-check-label " for="flexRadioDefault1">
-             yes
-          </label>
-          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"
-           value={true}
-           onChange={(event) => {
-             setisAdmin(event.target.value);
-           }}
-          />
-        </div>
-        <div class="form-check">
-          <label class="form-check-label " for="flexRadioDefault1">
-             no
-          </label>
-          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"
-           value={false}
-           onChange={(event) => {
-             setisAdmin(event.target.value);
-           }}
-          />
-        </div>
-        </div> */}
+        
 
         <div class="form-group pb-3">
           <label class="fs-5">Email</label>
@@ -95,7 +72,6 @@ function UserRegister() {
         <div class="form-group pb-3">
             <label class="fs-5">College</label>
             <input type="text"  class="form-control form-control-lg" id="college" placeholder="Enter your college name" minLength={4}
-            
             value={college}
             onChange={(event) => {
               setCollege(event.target.value);

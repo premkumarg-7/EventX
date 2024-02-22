@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { getSubjects } from "../../../utils/QuizService"
 
+
  const QuizStepper = () => {
 		const [currentStep, setCurrentStep] = useState(1)
 		const [selectedSubject, setSelectedSubject] = useState("")
@@ -110,7 +111,7 @@ import { getSubjects } from "../../../utils/QuizService"
 			<section className="mt-5">
 				
 				<h3 style={{ color: "GrayText" }} className="mb-4">
-					Welcome to quiz online
+					Hey! Welcome to EventX Quiz
 				</h3>
 				{renderProgressBar()}
 				<div className="card">
