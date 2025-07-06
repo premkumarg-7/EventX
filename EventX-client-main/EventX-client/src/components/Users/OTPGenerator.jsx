@@ -23,7 +23,7 @@ const OtpComponent =() =>{
             const response = await axios.post("http://localhost:9192/api/v1/user/verify-otp",{
                 mobile_no, otp
             });
-            setMessage(response.date);
+            setMessage(response.data);
         }catch (error){
             setMessage("Invalid OTP");
         }

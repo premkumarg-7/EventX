@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { getSubjects } from "../../../utils/QuizService"
+import { getSubjects,getQuestionCountBySubject } from "../../../utils/QuizService"
 import { useLocation } from "react-router-dom"
 
 
@@ -9,6 +9,7 @@ import { useLocation } from "react-router-dom"
 		const [selectedSubject, setSelectedSubject] = useState("")
 		const [selectedNumQuestions, setSelectedNumQuestions] = useState("")
 		const [subjects, setSubjects] = useState([])
+		const [questionCount, setQuestionCount] = useState(0);
 		const navigate = useNavigate()
 		const location = useLocation();
 		const userId = location.state?.userId || null
@@ -28,8 +29,8 @@ import { useLocation } from "react-router-dom"
 
 		const handleNext = () => {
 			if (currentStep === 3) {
-				if (selectedSubject && selectedNumQuestions) {
-					navigate("/take-quiz", { state: { selectedNumQuestions, selectedSubject , userId} })
+				if (selectedSubject && questionCount) {
+					navigate("/take-quiz", { state: { questionCount, selectedSubject, userId } });
 				} else {
 					alert("Please select a subject and number of questions.")
 				}
@@ -42,13 +43,22 @@ import { useLocation } from "react-router-dom"
 			setCurrentStep((prevStep) => prevStep - 1)
 		}
 
-		const handleSubjectChange = (event) => {
-			setSelectedSubject(event.target.value)
-		}
+		const handleSubjectChange = async (e) => {
+		const value = e.target.value;
+		setSelectedSubject(value);
 
-		const handleNumQuestionsChange = (event) => {
-			setSelectedNumQuestions(event.target.value)
+		if (value) {
+			const count = await getQuestionCountBySubject(value);   // NEW
+			setQuestionCount(count);
+		} else {
+			setQuestionCount(3);
 		}
+		};
+
+
+		// const handleNumQuestionsChange = (event) => {
+		// 	setSelectedNumQuestions(event.target.value)
+		// }
 
 		const renderStepContent = () => {
 			switch (currentStep) {
@@ -72,14 +82,12 @@ import { useLocation } from "react-router-dom"
 				case 2:
 					return (
 						<div>
-							<h4 className="text-info mb-2">How many questions would you like to attempt ?</h4>
-							<input
-								type="number"
-								className="form-control"
-								value={selectedNumQuestions}
-								onChange={handleNumQuestionsChange}
-								placeholder="Enter the number of questions"
-							/>
+						<h4 className="text-info mb-2">
+							This subject has{" "}
+							<span className="badge bg-secondary">{questionCount}</span>{" "}
+							question{questionCount === 1 ? "" : "s"}.
+						</h4>
+						<p className="text-muted">Click “Next” to confirm and start the quiz.</p>
 						</div>
 					)
 				case 3:
@@ -87,7 +95,7 @@ import { useLocation } from "react-router-dom"
 						<div>
 							<h2>Confirmation</h2>
 							<p>Subject: {selectedSubject}</p>
-							<p>Number of Questions: {selectedNumQuestions}</p>
+							<p>Number of Questions: {questionCount}</p>
 						</div>
 					)
 				default:
@@ -96,7 +104,7 @@ import { useLocation } from "react-router-dom"
 		}
 
 		const renderProgressBar = () => {
-			const progress = currentStep === 2 ? 100 : ((currentStep - 1) / 2) * 100
+			const progress = currentStep === 3 ? 100 : ((currentStep - 1) / 2) * 100
 			return (
 				<div className="progress">
 					<div
@@ -132,7 +140,7 @@ import { useLocation } from "react-router-dom"
 									onClick={handleNext}
 									disabled={
 										(currentStep === 1 && !selectedSubject) ||
-										(currentStep === 2 && !selectedNumQuestions)
+										(currentStep === 2 && !questionCount)
 									}>
 									Next
 								</button>

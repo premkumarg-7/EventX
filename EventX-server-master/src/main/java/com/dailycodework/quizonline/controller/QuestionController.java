@@ -5,6 +5,7 @@ import com.dailycodework.quizonline.model.ParticipantDTO;
 import com.dailycodework.quizonline.model.ParticipantMarksDTO;
 import com.dailycodework.quizonline.model.Question;
 import com.dailycodework.quizonline.service.IQuestionService;
+import com.dailycodework.quizonline.service.SubjectQuestionCount;
 import com.dailycodework.quizonline.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -13,15 +14,12 @@ import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.springframework.http.HttpStatus.CREATED;
 
 
-@CrossOrigin("http://localhost:5173")
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/quizzes")
 @RequiredArgsConstructor
@@ -71,6 +69,12 @@ public class QuestionController {
         return ResponseEntity.ok(subjects);
     }
 
+    @GetMapping("/subjects/{subject}/count")
+    public ResponseEntity<Long> getSubjectCount(@PathVariable String subject) {
+        long count = questionService.getQuestionCount(subject);
+        return ResponseEntity.ok(count);
+    }
+
     @GetMapping("/quiz/fetch-questions-for-user")
     public ResponseEntity<List<Question>> getQuestionsForUser(
             @RequestParam Integer numOfQuestions, @RequestParam String subject){
@@ -89,7 +93,6 @@ public class QuestionController {
         return userService.saveMarks(participantMarksDTO);
     }
 
-    @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping("/get_participant")
     public ParticipantDTO getParticipant(@RequestBody ParticipantDTO participantDTO){
         int id = participantDTO.getId();

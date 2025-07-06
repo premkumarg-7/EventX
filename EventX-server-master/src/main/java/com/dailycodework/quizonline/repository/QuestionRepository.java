@@ -6,7 +6,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import java.net.ContentHandler;
 import java.util.List;
 
 
@@ -15,5 +14,6 @@ public interface QuestionRepository  extends JpaRepository<Question, Long> {
 
     @Query("SELECT DISTINCT q.subject FROM Question q")
     List<String> findDistinctSubject();
+    long countBySubject(String subject);
     Page<Question> findBySubject(String subject, Pageable pageable);
 }

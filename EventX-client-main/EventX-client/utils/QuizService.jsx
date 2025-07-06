@@ -35,15 +35,27 @@ export const fetchQuizForUser = async(number, subject) =>{
   }
 }
 
-export const getSubjects = async() =>{
+export const getSubjects = async () => {
   try {
-    const response = await api.get("/subjects")
-    return response.data
+    const response = await api.get("/subjects");
+    return response.data;
   } catch (error) {
-    console.error(error)
-
+    console.error(error);
+    return [];
   }
-}
+};
+
+
+export const getQuestionCountBySubject = async (subject) => {
+  try {
+    const response = await api.get(`/subjects/${encodeURIComponent(subject)}/count`);
+    return response.data;          // a plain number
+  } catch (error) {
+    console.error(error);
+    return 0;                      // fallback
+  }
+};
+
 
 export const updateQuestion = async(id, question) =>{
   try {

@@ -1,5 +1,6 @@
 package com.dailycodework.quizonline.model;
 
+import io.micrometer.common.lang.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;

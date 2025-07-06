@@ -13,15 +13,15 @@ const Quiz = () => {
 	const location = useLocation()
 	const navigate = useNavigate()
 	const userId = location.state.userId || none
-	const { selectedSubject, selectedNumQuestions } = location.state
+	const { selectedSubject, questionCount } = location.state
 
 	useEffect(() => {
 		fetchQuizData()
 	}, [])
 
 	const fetchQuizData = async () => {
-		if (selectedNumQuestions && selectedSubject) {
-			const questions = await fetchQuizForUser(selectedNumQuestions, selectedSubject)
+		if (questionCount && selectedSubject) {
+			const questions = await fetchQuizForUser(questionCount, selectedSubject)
 			setQuizQuestions(questions)
 		}
 	}

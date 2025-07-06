@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +37,10 @@ public class QuestionService implements IQuestionService{
     @Override
     public List<String> getAllSubjects() {
         return questionRepository.findDistinctSubject();
+    }
+
+    public long getQuestionCount(String subject) {
+         return questionRepository.countBySubject(subject);
     }
 
     @Override

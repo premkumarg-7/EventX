@@ -27,4 +27,5 @@ public interface IQuestionService {
     List<Question> getQuestionsForUser(Integer numOfQuestions, String subject);
 
 
+    long getQuestionCount(String subject);
 }

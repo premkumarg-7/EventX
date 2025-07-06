@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react"
-
+import React, { useEffect, useRef, useState } from "react"
 import { Link } from "react-router-dom"
 import { createQuestion, getSubjects } from "../../../utils/QuizService"
+import FileUploadModal from "./FileUploadModal" // Import the modal component
+import QuestionPreviewModal from "./QuestionPreviewModal" // Import the preview modal component
+import * as XLSX from "xlsx" // Import the xlsx library
 
 const AddQuestion = () => {
 	const [question, setQuestionText] = useState("")
@@ -11,6 +13,10 @@ const AddQuestion = () => {
 	const [subject, setSubject] = useState("")
 	const [newSubject, setNewSubject] = useState("")
 	const [subjectOptions, setSubjectOptions] = useState([""])
+	const [showModal, setShowModal] = useState(false) // State to control the modal
+	const [showPreviewModal, setShowPreviewModal] = useState(false) // State to control the preview modal
+	const [uploadedQuestions, setUploadedQuestions] = useState([]) // State to store uploaded questions
+	const fileInputRef = useRef(null)
 
 	useEffect(() => {
 		fetchSubjects()
@@ -89,8 +95,78 @@ const AddQuestion = () => {
 		}
 	}
 
-	const handleFileUpload = () =>{
+	const handleShowModal = () => setShowModal(true)
+	const handleCloseModal = () => setShowModal(false)
 
+	const handleFileUpload = (event) => {
+		const file = event.target.files[0]
+		if (file) {
+			const reader = new FileReader()
+			reader.onload = (e) => {
+				const data = new Uint8Array(e.target.result)
+				const workbook = XLSX.read(data, { type: "array" })
+				const sheetName = workbook.SheetNames[0]
+				const worksheet = workbook.Sheets[sheetName]
+				const jsonData = XLSX.utils.sheet_to_json(worksheet)
+
+				const questions = jsonData.map((row) => ({
+					question: row.question,
+					choices: row.choices.split(","),
+					correctAnswers: row.correctAnswers.split(","),
+					questionType: row.correctAnswers.split(",").length > 1 ? "multiple" : "single",
+					subject: subject
+				}))
+
+				setUploadedQuestions(questions)
+				setShowPreviewModal(true)
+			}
+			reader.readAsArrayBuffer(file)
+		}
+		handleCloseModal()
+	}
+
+	const handleRemoveQuestion = (index) => {
+		const updatedQuestions = [...uploadedQuestions]
+		updatedQuestions.splice(index, 1)
+		setUploadedQuestions(updatedQuestions)
+	}
+
+	const handleSaveQuestions = async () => {
+		try {
+			for (const question of uploadedQuestions) {
+				await createQuestion(question)
+			}
+			setShowPreviewModal(false)
+			// Optionally, you can clear the form or show a success message
+		} catch (error) {
+			console.error(error)
+		}
+	}
+
+	const handleQuestionChange = (index, field, value) => {
+		const updatedQuestions = [...uploadedQuestions]
+		updatedQuestions[index][field] = value
+		setUploadedQuestions(updatedQuestions)
+	}
+
+	const downloadTemplate = () => {
+		const header = ["question", "choices", "correctAnswers"]
+		const data = [
+			{
+				question: "Sample question?",
+				choices: "A,B,C,D",
+				correctAnswers: "A"
+			}
+		]
+
+		const worksheet = XLSX.utils.json_to_sheet(data, { header })
+		const workbook = XLSX.utils.book_new()
+		XLSX.utils.book_append_sheet(workbook, worksheet, "Template")
+		XLSX.writeFile(workbook, "question_template.xlsx")
+	}
+
+	const getFile = () => {
+		fileInputRef.current.click()
 	}
 
 	return (
@@ -145,12 +221,19 @@ const AddQuestion = () => {
 								<div className="mb-3">
 									<div className="row justify-content-end">
 										<div className="col-md-4">
-										<button
-											type="button"
-											// onClick={getfile}
-											className="btn btn-outline-primary mt-2">
-											Upload File
-										</button>
+											<input
+												type="file"
+												ref={fileInputRef}
+												style={{ display: "none" }}
+												onChange={handleFileUpload}
+												accept=".xlsx, .xls"
+											/>
+											<button
+												type="button"
+												onClick={handleShowModal} // Show the modal on button click
+												className="btn btn-outline-primary mt-2">
+												Upload File
+											</button>
 										</div>
 									</div>
 									<label htmlFor="question-text" className="form-label text-info">
@@ -263,6 +346,20 @@ const AddQuestion = () => {
 					</div>
 				</div>
 			</div>
+			<FileUploadModal
+				show={showModal}
+				handleClose={handleCloseModal}
+				handleFileUpload={getFile}
+				downloadTemplate={downloadTemplate}
+			/>
+			<QuestionPreviewModal
+				show={showPreviewModal}
+				handleClose={() => setShowPreviewModal(false)}
+				questions={uploadedQuestions}
+				handleSave={handleSaveQuestions}
+				handleQuestionChange={handleQuestionChange}
+				handleRemoveQuestion={handleRemoveQuestion}
+			/>
 		</div>
 	)
 }
