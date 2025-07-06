@@ -5,7 +5,6 @@ import com.dailycodework.quizonline.model.ParticipantDTO;
 import com.dailycodework.quizonline.model.ParticipantMarksDTO;
 import com.dailycodework.quizonline.model.Question;
 import com.dailycodework.quizonline.service.IQuestionService;
-import com.dailycodework.quizonline.service.SubjectQuestionCount;
 import com.dailycodework.quizonline.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

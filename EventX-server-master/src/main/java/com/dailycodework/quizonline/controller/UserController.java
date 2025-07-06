@@ -5,9 +5,11 @@ import com.dailycodework.quizonline.model.LoginDTO;
 import com.dailycodework.quizonline.model.ParticipantDTO;
 import com.dailycodework.quizonline.model.UserDTO;
 import com.dailycodework.quizonline.security.LoginResponse;
+import com.dailycodework.quizonline.service.OtpService;
 import com.dailycodework.quizonline.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,6 +18,9 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private OtpService otpService;
 
     @PostMapping(path = "/save")
     public int saveUser(@RequestBody UserDTO userDTO){
@@ -35,5 +40,28 @@ public class UserController {
         LoginResponse loginResponse = userService.loginUser(loginDTO);
         return  ResponseEntity.ok(loginResponse);
     }
+
+    @PostMapping(path = "/send-otp")
+    public ResponseEntity<?> SendOtp(@RequestBody UserDTO userDTO){
+        boolean status = otpService.sendOtp(userDTO.getEmail());
+        if(status){
+            return ResponseEntity.ok("OTP sent Successfully");
+        }else {
+            return ResponseEntity.status(500).body("Failed to send otp");
+        }
+    }
+
+    @PostMapping(path = "/verify-otp")
+    public ResponseEntity<?> verifyOtp(@RequestBody UserDTO userDTO){
+        boolean isvalid = otpService.verifyOtp(userDTO.getEmail(),userDTO.getOtp());
+        if(isvalid){
+            otpService.clearOtp(userDTO.getEmail());
+            return ResponseEntity.ok("OTP verified Successfully");
+        }
+        else {
+            return ResponseEntity.status(400).body("Invalid or Expired OTP");
+        }
+    }
+
 
 }

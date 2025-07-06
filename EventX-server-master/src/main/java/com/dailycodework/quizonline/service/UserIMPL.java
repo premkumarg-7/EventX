@@ -102,6 +102,11 @@ public class UserIMPL implements UserService{
         }
     }
 
+    public String getOTP(){
+        int otp = (int)(Math.random() * 900000) + 100000;
+        return String.valueOf(otp);
+    }
+
 
     @Override
     public Participant getParticipant(int id) {

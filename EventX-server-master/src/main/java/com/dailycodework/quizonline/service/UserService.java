@@ -15,4 +15,5 @@ public interface UserService {
     ResponseEntity<String> saveMarks(ParticipantMarksDTO participantMarksDTO);
     LoginResponse loginUser(LoginDTO loginDTO);
     Participant getParticipant(int id);
+    String getOTP();
 }

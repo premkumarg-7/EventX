@@ -15,8 +15,6 @@ function Register() {
     async function handleRegister(event) {
         event.preventDefault();
         try {
-          // Simulate sending OTP
-          // In a real application, you would make an API call here to send OTP to the email
           await axios.post("http://localhost:9192/api/v1/user/send-otp", { email: email });
           alert("OTP sent to your email. Please check your inbox.");
           setShowOtpField(true);
@@ -30,7 +28,7 @@ function Register() {
         try {
             // Simulate OTP verification and then user registration
             // In a real application, you would make an API call here to verify OTP
-            // await axios.post("http://localhost:9192/api/v1/user/verify-otp", { email: email, otp: otp });
+            await axios.post("http://localhost:9192/api/v1/user/verify-otp", { email: email, otp: otp });
 
             // If OTP is verified, proceed with user registration
             await axios.post("http://localhost:9192/api/v1/user/save", {
