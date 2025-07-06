@@ -1,19 +1,26 @@
 package com.dailycodework.quizonline.service;
 
 import com.dailycodework.quizonline.entity.Participant;
+import com.dailycodework.quizonline.entity.ParticipantMarks;
 import com.dailycodework.quizonline.entity.Users;
 import com.dailycodework.quizonline.model.LoginDTO;
 import com.dailycodework.quizonline.model.ParticipantDTO;
+import com.dailycodework.quizonline.model.ParticipantMarksDTO;
 import com.dailycodework.quizonline.model.UserDTO;
+import com.dailycodework.quizonline.repository.ParticipantMarksRepository;
 import com.dailycodework.quizonline.repository.ParticipantRepository;
 import com.dailycodework.quizonline.repository.UserRepository;
 import com.dailycodework.quizonline.security.LoginResponse;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.lang.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -25,9 +32,14 @@ public class UserIMPL implements UserService{
     private ParticipantRepository participantRepo;
 
     @Autowired
+    private ParticipantMarksRepository participantMarksRepo;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
+
+    private final Map<String,String> otpStorage = new HashMap<>();
     @Override
-    public String addUser(@NotNull UserDTO UserDTO) {
+    public int addUser(@NotNull UserDTO UserDTO) {
         Users user = new Users(
                 UserDTO.getId(),
                 UserDTO.getUsername(),
@@ -36,7 +48,7 @@ public class UserIMPL implements UserService{
                 this.passwordEncoder.encode(UserDTO.getPassword())
         );
         userRepo.save(user);
-        return user.getUsername();
+        return user.getId();
     }
 
     /**
@@ -44,20 +56,62 @@ public class UserIMPL implements UserService{
      * @return
      */
     @Override
-    public String addParticipant(@NotNull ParticipantDTO participantDTO) {
+    public Participant addParticipant(ParticipantDTO participantDTO) {
         Participant participant = new Participant(
-                participantDTO.getId(),
                 participantDTO.getUsername(),
                 participantDTO.getEmail(),
-                participantDTO.getCollege(),
-                participantDTO.getMobile()
+                participantDTO.getOrganization(),
+                participantDTO.getMobile_no()
         );
         participantRepo.save(participant);
-        System.out.println(participant.getMobile());
-        return participant.getName();
+        System.out.println(participant.getMobile_no());
+        return participant;
     }
 
-    UserDTO userDTO;
+    @Override
+    public ResponseEntity<String> saveMarks(ParticipantMarksDTO participantMarksDTO) {
+        try {
+            // 1. Find participant by ID
+            Optional<Participant> participantOptional = participantRepo.findById(participantMarksDTO.getUserId());
+            if (participantOptional.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("Participant with ID " + participantMarksDTO.getUserId() + " not found");
+            }
+
+            Participant participant = participantOptional.get();
+
+            // 2. Create and populate marks entity
+            ParticipantMarks participantMarks = new ParticipantMarks(
+                    participantMarksDTO.getObtained_marks(),
+                    participantMarksDTO.getTotal_marks(),
+                    participantMarksDTO.getPercentage(),
+                    participant,
+                    participantMarksDTO.getSubject()
+            );
+
+            // 3. Save to DB
+            participantMarksRepo.save(participantMarks);
+
+            // 4. Return success
+            return ResponseEntity.ok("Successfully saved the marks");
+
+        } catch (Exception e) {
+            e.printStackTrace(); // okay for dev, remove in production
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Something went wrong while saving marks");
+        }
+    }
+
+
+    @Override
+    public Participant getParticipant(int id) {
+        Optional<Participant> participantOptional = participantRepo.findById(id);
+        if (participantOptional.isEmpty()) {
+            throw new RuntimeException("User not found");
+        }
+        return participantOptional.get();
+    }
+
     @Override
     public LoginResponse loginUser(@NotNull LoginDTO loginDTO) {
         String msg = "";

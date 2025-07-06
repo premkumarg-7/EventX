@@ -32,7 +32,6 @@ function App() {
 					<Route path="/login" element={<AdminLogin/>}/>
 					<Route path="/register" element={<Register/>}/>
 					<Route path="/user-register" element={<UserRegister/>}/>
-
 					<Route path="/create-quiz" element={<AddQuestion />} />
 					<Route path="/update-quiz/:id" element={<UpdateQuestion />} />
 					<Route path="/all-quizzes" element={<GetAllQuiz />} />

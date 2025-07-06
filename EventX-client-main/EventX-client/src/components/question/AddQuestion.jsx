@@ -89,6 +89,10 @@ const AddQuestion = () => {
 		}
 	}
 
+	const handleFileUpload = () =>{
+
+	}
+
 	return (
 		<div className="container">
 			<div className="row justify-content-center">
@@ -139,6 +143,16 @@ const AddQuestion = () => {
 									</div>
 								)}
 								<div className="mb-3">
+									<div className="row justify-content-end">
+										<div className="col-md-4">
+										<button
+											type="button"
+											// onClick={getfile}
+											className="btn btn-outline-primary mt-2">
+											Upload File
+										</button>
+										</div>
+									</div>
 									<label htmlFor="question-text" className="form-label text-info">
 										Question
 									</label>

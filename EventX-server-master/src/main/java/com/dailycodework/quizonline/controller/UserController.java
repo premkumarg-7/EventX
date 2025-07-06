@@ -1,5 +1,6 @@
 package com.dailycodework.quizonline.controller;
 
+import com.dailycodework.quizonline.entity.Participant;
 import com.dailycodework.quizonline.model.LoginDTO;
 import com.dailycodework.quizonline.model.ParticipantDTO;
 import com.dailycodework.quizonline.model.UserDTO;
@@ -17,15 +18,17 @@ public class UserController {
     private UserService userService;
 
     @PostMapping(path = "/save")
-    public String saveUser(@RequestBody UserDTO userDTO){
-        String id=userService.addUser(userDTO);
+    public int saveUser(@RequestBody UserDTO userDTO){
+        int id=userService.addUser(userDTO);
         return id;
     }
     @PostMapping(path = "/participant_save")
-    public  String saveParticipant(@RequestBody ParticipantDTO participantDTO)
+    public Participant saveParticipant(@RequestBody ParticipantDTO participantDTO)
     {
-        String id=userService.addParticipant(participantDTO);
-        return id;
+        Participant participant=userService.addParticipant(participantDTO);
+        System.out.println(participant.getId());
+        System.out.println(participant.getName());
+        return participant;
     }
     @PostMapping (path = "/login")
     public ResponseEntity<?> loginUser(@RequestBody LoginDTO loginDTO) {

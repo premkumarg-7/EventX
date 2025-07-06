@@ -3,37 +3,40 @@ package com.dailycodework.quizonline.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import java.util.List;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "participants")
 public class Participant {
+
     @Id
-    @Column(name = "id", length = 45)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Use IDENTITY for auto-increment
     private int id;
 
-    @Column(name = "username",length = 255,nullable = false)
+    @Column(name = "username", length = 255)
     private String name;
-    @Column(name = "email",length = 255,nullable = false)
+
+    @Column(name = "email", length = 255)
     private String email;
-    @Column(name = "college",length = 255,nullable = false)
-    private String college;
 
-    @Column(name = "mobile",length = 25)
-    private String mobile;
+    @Column(name = "organization", length = 255)
+    private String organization;
+
+    @Column(name = "mobile_no", length = 20)
+    private long mobile_no;
+
+    @OneToMany(mappedBy = "participant", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<ParticipantMarks> marksList;
+
     public Participant() {
-
     }
 
-    public Participant(int id, String name, String email, String college, String mobile) {
-        this.id = id;
+    public Participant(String name, String email, String organization, long mobile_no) {
         this.name = name;
         this.email = email;
-        this.college = college;
-        this.mobile = mobile;
+        this.organization = organization;
+        this.mobile_no = mobile_no;
     }
-
-
 }

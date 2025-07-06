@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { getSubjects } from "../../../utils/QuizService"
+import { useLocation } from "react-router-dom"
 
 
  const QuizStepper = () => {
@@ -9,6 +10,8 @@ import { getSubjects } from "../../../utils/QuizService"
 		const [selectedNumQuestions, setSelectedNumQuestions] = useState("")
 		const [subjects, setSubjects] = useState([])
 		const navigate = useNavigate()
+		const location = useLocation();
+		const userId = location.state?.userId || null
 
 		useEffect(() => {
 			fetchSubjectData()
@@ -26,7 +29,7 @@ import { getSubjects } from "../../../utils/QuizService"
 		const handleNext = () => {
 			if (currentStep === 3) {
 				if (selectedSubject && selectedNumQuestions) {
-					navigate("/take-quiz", { state: { selectedNumQuestions, selectedSubject } })
+					navigate("/take-quiz", { state: { selectedNumQuestions, selectedSubject , userId} })
 				} else {
 					alert("Please select a subject and number of questions.")
 				}
@@ -93,7 +96,7 @@ import { getSubjects } from "../../../utils/QuizService"
 		}
 
 		const renderProgressBar = () => {
-			const progress = currentStep === 3 ? 100 : ((currentStep - 1) / 2) * 100
+			const progress = currentStep === 2 ? 100 : ((currentStep - 1) / 2) * 100
 			return (
 				<div className="progress">
 					<div
@@ -111,7 +114,7 @@ import { getSubjects } from "../../../utils/QuizService"
 			<section className="mt-5">
 				
 				<h3 style={{ color: "GrayText" }} className="mb-4">
-					Hey! Welcome to EventX Quiz
+					Hey {location.state.username}! Welcome to EventX Quiz
 				</h3>
 				{renderProgressBar()}
 				<div className="card">

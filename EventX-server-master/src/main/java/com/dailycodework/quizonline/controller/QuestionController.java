@@ -1,11 +1,15 @@
 package com.dailycodework.quizonline.controller;
 
+import com.dailycodework.quizonline.entity.Participant;
+import com.dailycodework.quizonline.model.ParticipantDTO;
+import com.dailycodework.quizonline.model.ParticipantMarksDTO;
 import com.dailycodework.quizonline.model.Question;
 import com.dailycodework.quizonline.service.IQuestionService;
+import com.dailycodework.quizonline.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +27,9 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RequiredArgsConstructor
 public class QuestionController {
     private final IQuestionService questionService;
+
+    @Autowired
+    private UserService userService;
 
     @PostMapping("/create-new-question")
     public ResponseEntity<Question> createQuestion(@Valid @RequestBody Question question){
@@ -75,6 +82,19 @@ public class QuestionController {
         int availableQuestions = Math.min(numOfQuestions, mutableQuestions.size());
         List<Question> randomQuestions = mutableQuestions.subList(0, availableQuestions);
         return ResponseEntity.ok(randomQuestions);
+    }
+
+    @PostMapping("/update_marks")
+    public ResponseEntity<String> saveMarks(@RequestBody ParticipantMarksDTO participantMarksDTO) {
+        return userService.saveMarks(participantMarksDTO);
+    }
+
+    @CrossOrigin(origins = "http://localhost:5173")
+    @PostMapping("/get_participant")
+    public ParticipantDTO getParticipant(@RequestBody ParticipantDTO participantDTO){
+        int id = participantDTO.getId();
+        Participant user_detail =  userService.getParticipant(id);
+        return new ParticipantDTO(user_detail);
     }
 
 }

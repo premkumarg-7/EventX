@@ -12,6 +12,7 @@ const Quiz = () => {
 	const [totalScores, setTotalScores] = useState(0)
 	const location = useLocation()
 	const navigate = useNavigate()
+	const userId = location.state.userId || none
 	const { selectedSubject, selectedNumQuestions } = location.state
 
 	useEffect(() => {
@@ -105,7 +106,7 @@ const handleSubmit = () => {
   setTotalScores(scores);
   setSelectedAnswers([]);
   setCurrentQuestionIndex(0);
-  navigate("/quiz-result", { state: { quizQuestions, totalScores: scores } });
+  navigate("/quiz-result", { state: { quizQuestions, totalScores: scores , userId, subject: selectedSubject} });
 };
 
 
